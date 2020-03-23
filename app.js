@@ -1,7 +1,7 @@
 const tmi = require('tmi.js')
 
 const streamer = 'Meg'
-const channel = 'megturney'
+const channel = 'dai101'
 var wins = 0
 var total = 0
 var percentage = null
@@ -30,20 +30,25 @@ client.connect();
 
 client.on('chat', (channel, user, message, self) => {
   username = user["display-name"].toLowerCase();
-  let badges = Object.keys(user[`badges`])
-  let level = badges.includes('moderator') || badges.includes('broadcaster')
+  let badges = null
+  let level = false
+  if (user[`badges`] !== null){
+    badges = Object.keys(user[`badges`])
+    level = badges.includes('moderator') || badges.includes('broadcaster')
+  }
   if (message === '!perc'){
     if (total !== 0){
-    percentagecalc();
-    reply = `${streamer} has survived ${percentage}% of their survivor game this stream.`
-    additionalreply();
-    client.action(`${channel}`, `@${user["display-name"]}` + ` ` + `${reply}`)
+      percentagecalc();
+      reply = `${streamer} has survived ${percentage}% of their survivor game this stream.`
+      additionalreply();
+      client.action(`${channel}`, `@${user["display-name"]}` + ` ` + `${reply}`)
+    }
+    else{
+      reply = `The first game isn't over. Wish ${streamer} good luck!`
+      client.action(`${channel}`, `@${user["display-name"]}` + ` ` + `${reply}`)
+    }
   }
-  else{
-  reply = `The first game isn't over. Wish ${streamer} good luck!`
-  client.action(`${channel}`, `@${user["display-name"]}` + ` ` + `${reply}`)
-}
-}else if (username === 'dai101' || level === true){
+  else if (username === 'dai101' || level === true){
     if(message === '!win'){
       ++wins
       ++total
