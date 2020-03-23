@@ -1,7 +1,7 @@
 const tmi = require('tmi.js')
 
 const streamer = 'Meg'
-const channel = 'dai101'
+const channel = 'megturney'
 var wins = 0
 var total = 0
 var percentage = null
