@@ -1,7 +1,7 @@
 const tmi = require('tmi.js')
 
 const streamer = 'Meg'
-const channel = 'dai101'
+const channel = 'megturney'
 var wins = 0
 var total = 0
 var percentage = null
@@ -30,6 +30,8 @@ client.connect();
 
 client.on('chat', (channel, user, message, self) => {
   username = user["display-name"].toLowerCase();
+  let badges = Object.keys(user[`badges`])
+  let level = badges.includes('moderator') || badges.includes('broadcaster')
   if (message === '!perc'){
     if (total !== 0){
     percentagecalc();
@@ -41,7 +43,7 @@ client.on('chat', (channel, user, message, self) => {
   reply = `The first game isn't over. Wish ${streamer} good luck!`
   client.action(`${channel}`, `@${user["display-name"]}` + ` ` + `${reply}`)
 }
-  }else if (username === 'dai101' || username === 'trivayne'){
+}else if (username === 'dai101' || level === true){
     if(message === '!win'){
       ++wins
       ++total
