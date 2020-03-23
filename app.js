@@ -1,11 +1,11 @@
 const tmi = require('tmi.js')
 
 const streamer = 'Meg'
-const channel = 'megturney'
+const channel = 'dai101'
 var wins = 0
 var total = 0
 var percentage = null
-var reply = `The first game isn't over. Wish ${streamer} good luck!`
+var reply = null
 var previouscommand = null
 
 const options= {
@@ -31,7 +31,16 @@ client.connect();
 client.on('chat', (channel, user, message, self) => {
   username = user["display-name"].toLowerCase();
   if (message === '!perc'){
+    if (total !== 0){
+    percentagecalc();
+    reply = `${streamer} has survived ${percentage}% of their survivor game this stream.`
+    additionalreply();
     client.action(`${channel}`, `@${user["display-name"]}` + ` ` + `${reply}`)
+  }
+  else{
+  reply = `The first game isn't over. Wish ${streamer} good luck!`
+  client.action(`${channel}`, `@${user["display-name"]}` + ` ` + `${reply}`)
+}
   }else if (username === 'dai101' || username === 'trivayne'){
     if(message === '!win'){
       ++wins
